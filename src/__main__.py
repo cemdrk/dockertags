@@ -6,7 +6,7 @@ from typing import List
 from .arg_parser import get_arg_parser
 from .utils import fetch_json_from_url, random_sleep
 
-API_BASE_URL = "https://registry.hub.docker.com/v2/repositories/library"
+API_BASE_URL = "https://registry.hub.docker.com/v2/repositories"
 
 
 def filter_tags(arr):
@@ -18,7 +18,11 @@ def filter_tags(arr):
 
 def fetch_repo_tags(image_name: str) -> List[str]:
     tags = []
-    next_url = f"{API_BASE_URL}/{image_name}/tags"
+
+    if "/" in image_name:
+        next_url = f"{API_BASE_URL}/{image_name}/tags"
+    else:
+        next_url = f"{API_BASE_URL}/library/{image_name}/tags"
 
     while next_url:
         response = fetch_json_from_url(next_url)
