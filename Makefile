@@ -1,13 +1,14 @@
-.PHONY: install uninstall
+.PHONY: install uninstall format test
 
 
 uninstall:
-	pip uninstall dockertags
+	pip uninstall -y dockertags
 
 install: uninstall
 	python setup.py install
 
 format:
+	isort src/
 	black .
 
 test:
